@@ -39,6 +39,7 @@ public class OrdersController(OrderRepository repo, DownstreamClients downstream
             DiscountRate = quote.DiscountRate,
             Total = quote.Total,
             CreatedAt = DateTime.UtcNow,
+            LoyaltyPointsEarned = (int)Math.Floor(quote.Total / 10), // 1 point per 10 spent
         };
 
         var orderRef = "ORD-" + Guid.NewGuid().ToString("N")[..8];

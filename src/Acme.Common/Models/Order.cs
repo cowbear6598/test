@@ -19,4 +19,5 @@ public class Order
     public string Status { get; set; } = OrderStatus.Created;
     public string? RejectReason { get; set; }
     public DateTime CreatedAt { get; set; }
+    public int LoyaltyPointsEarned { get; set; }
 }
