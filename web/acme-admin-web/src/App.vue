@@ -46,7 +46,7 @@ onMounted(loadAll)
 
 <template>
   <main>
-    <h1>Acme Admin <small>v0.3.7</small></h1>
+    <h1>Acme Admin <small>v0.4.0</small></h1>
     <p v-if="error" class="error">{{ error }}</p>
     <p v-if="message" class="message">{{ message }}</p>
     <button @click="loadAll">Refresh</button>
@@ -81,7 +81,7 @@ onMounted(loadAll)
         <tr><th>#</th><th>Customer</th><th>SKU</th><th>Qty</th><th>Unit</th><th>Disc.</th><th>Total</th><th>Status</th></tr>
         <tr v-for="o in orders" :key="o.id">
           <td>{{ o.id }}</td><td>{{ o.customerName }}</td><td>{{ o.sku }}</td><td>{{ o.quantity }}</td>
-          <td>{{ o.unitPrice }}</td><td>{{ o.discountRate }}</td><td>{{ o.total }}</td>
+          <td>{{ o.unitPrice }}</td><td>{{ (o.discountRate * 100).toFixed(0) }}%</td><td>{{ o.total }}</td>
           <td>{{ o.status }}<span v-if="o.rejectReason"> ({{ o.rejectReason }})</span></td>
         </tr>
       </table>
