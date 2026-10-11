@@ -41,6 +41,17 @@ async function submitOrder() {
   }
 }
 
+async function cancelOrder(id) {
+  error.value = ''
+  try {
+    await api.cancelOrder(id)
+    message.value = `Order #${id} cancelled`
+    await loadAll()
+  } catch (e) {
+    error.value = `Cancel failed: ${e.message}`
+  }
+}
+
 onMounted(loadAll)
 </script>
 
@@ -78,11 +89,12 @@ onMounted(loadAll)
     <section>
       <h2>Orders <small>(orders-api)</small></h2>
       <table>
-        <tr><th>#</th><th>Customer</th><th>SKU</th><th>Qty</th><th>Unit</th><th>Disc.</th><th>Total</th><th>Status</th></tr>
+        <tr><th>#</th><th>Customer</th><th>SKU</th><th>Qty</th><th>Unit</th><th>Disc.</th><th>Total</th><th>Status</th><th></th></tr>
         <tr v-for="o in orders" :key="o.id">
           <td>{{ o.id }}</td><td>{{ o.customerName }}</td><td>{{ o.sku }}</td><td>{{ o.quantity }}</td>
           <td>{{ o.unitPrice }}</td><td>{{ o.discountRate }}</td><td>{{ o.total }}</td>
-          <td>{{ o.status }}<span v-if="o.rejectReason"> ({{ o.rejectReason }})</span></td>
+          <td :class="o.status.toLowerCase()">{{ o.status }}<span v-if="o.rejectReason"> ({{ o.rejectReason }})</span></td>
+          <td><button v-if="o.status === 'Created'" @click="cancelOrder(o.id)">Cancel</button></td>
         </tr>
       </table>
     </section>

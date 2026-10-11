@@ -16,6 +16,7 @@ async function request(path, options = {}) {
 export const api = {
   orders: () => request('/svc/orders/api/orders'),
   createOrder: (body) => request('/svc/orders/api/orders', { method: 'POST', body: JSON.stringify(body) }),
+  cancelOrder: (id) => request(`/svc/orders/api/orders/${id}/cancel`, { method: 'POST' }),
   customers: () => request('/svc/customers/api/customers'),
   stock: () => request('/svc/inventory/stock'),
   summary: () => request('/svc/reports/reports/summary'),
