@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Acme.Common/Acme.Common.csproj" />
+    <Project Path="src/Acme.Customers.Api/Acme.Customers.Api.csproj" />
+    <Project Path="src/Acme.Orders.Api/Acme.Orders.Api.csproj" />
+  </Folder>
+</Solution>
