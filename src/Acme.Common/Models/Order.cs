@@ -4,6 +4,7 @@ public static class OrderStatus
 {
     public const string Created = "Created";
     public const string Rejected = "Rejected";
+    public const string Cancelled = "Cancelled";
 }
 
 public class Order
@@ -19,4 +20,5 @@ public class Order
     public string Status { get; set; } = OrderStatus.Created;
     public string? RejectReason { get; set; }
     public DateTime CreatedAt { get; set; }
+    public DateTime? CancelledAt { get; set; }
 }
