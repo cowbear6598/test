@@ -34,6 +34,10 @@ public class DownstreamClients(IConfiguration config)
         return result ?? new ReserveResult(false, 0, "invalid_inventory_response");
     }
 
+    public Task ReleaseStockAsync(string sku, int qty) =>
+        LegacyHttpHelper.PostJsonAsync($"{Url("InventoryService")}/release",
+            new { Sku = sku, Qty = qty }, LegacyHttpHelper.SnakeCaseOptions);
+
     // Fire-and-forget: if notification-service is down the order still succeeds (and nobody gets an email).
     public void NotifyOrderCreated(Order order, Customer customer)
     {

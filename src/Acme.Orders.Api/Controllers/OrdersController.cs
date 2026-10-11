@@ -11,10 +11,25 @@ public record CreateOrderRequest(int CustomerId, string Sku, int Quantity);
 public class OrdersController(OrderRepository repo, DownstreamClients downstream) : ControllerBase
 {
     [HttpGet]
-    public IEnumerable<Order> List() => repo.All();
+    public IEnumerable<Order> List([FromQuery] bool includeCancelled = false) =>
+        includeCancelled ? repo.All() : repo.All().Where(o => o.Status != OrderStatus.Cancelled);
 
     [HttpGet("{id:int}")]
     public ActionResult<Order> Get(int id) => repo.Get(id) is { } o ? o : NotFound();
+
+    [HttpPost("{id:int}/cancel")]
+    public async Task<ActionResult<Order>> Cancel(int id)
+    {
+        var order = repo.Get(id);
+        if (order is null) return NotFound();
+        if (order.Status != OrderStatus.Created) return Conflict(new { error = $"order is {order.Status}" });
+
+        // Requires inventory-service POST /release (test2 branch feature/inventory-release, not deployed yet).
+        await downstream.ReleaseStockAsync(order.Sku, order.Quantity);
+        order.Status = OrderStatus.Cancelled;
+        order.CancelledAt = DateTime.UtcNow;
+        return order;
+    }
 
     // Order flow: customers-api -> pricing-service -> inventory-service -> notification-service
     [HttpPost]
