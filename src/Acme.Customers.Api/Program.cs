@@ -24,7 +24,7 @@ foreach (var c in new[]
     customers[c.Id] = c;
 }
 
-app.MapGet("/health", () => Results.Ok(new { service = "customers-api", status = "ok" }));
+app.MapGet("/health", () => Results.Ok(new { service = "customers-api", status = "ok", version = "1.1.0" }));
 
 app.MapGet("/api/customers", () => customers.Values.OrderBy(c => c.Id));
 

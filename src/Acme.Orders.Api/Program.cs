@@ -14,7 +14,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.MapGet("/health", () => Results.Ok(new { service = "orders-api", status = "ok" }));
+app.MapGet("/health", () => Results.Ok(new { service = "orders-api", status = "ok", version = "1.1.0" }));
 app.MapControllers();
 
 app.Run();
