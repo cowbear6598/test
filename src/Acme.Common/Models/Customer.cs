@@ -7,6 +7,7 @@ public static class CustomerTier
     public const string Bronze = "Bronze";
     public const string Silver = "Silver";
     public const string Gold = "Gold";
+    public const string Platinum = "Platinum"; // pricing-service (test2) added this in its 1.1
 }
 
 public class Customer
@@ -15,4 +16,5 @@ public class Customer
     public string Name { get; set; } = "";
     public string Email { get; set; } = "";
     public string Tier { get; set; } = CustomerTier.Bronze;
+    public int LoyaltyPoints { get; set; }
 }

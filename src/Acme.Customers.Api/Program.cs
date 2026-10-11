@@ -35,8 +35,8 @@ app.MapPost("/api/customers", (Customer input) =>
 {
     if (string.IsNullOrWhiteSpace(input.Name))
         return Results.BadRequest(new { error = "name is required" });
-    if (input.Tier is not (CustomerTier.Bronze or CustomerTier.Silver or CustomerTier.Gold))
-        return Results.BadRequest(new { error = "tier must be Bronze, Silver or Gold" });
+    if (input.Tier is not (CustomerTier.Bronze or CustomerTier.Silver or CustomerTier.Gold or CustomerTier.Platinum))
+        return Results.BadRequest(new { error = "tier must be Bronze, Silver, Gold or Platinum" });
 
     input.Id = Interlocked.Increment(ref nextId);
     customers[input.Id] = input;
