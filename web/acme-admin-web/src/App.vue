@@ -46,7 +46,10 @@ onMounted(loadAll)
 
 <template>
   <main>
-    <h1>Acme Admin <small>v0.3.7</small></h1>
+    <header class="topbar">
+      <h1>Acme Admin</h1>
+      <span class="version">v0.5.0-beta.1</span>
+    </header>
     <p v-if="error" class="error">{{ error }}</p>
     <p v-if="message" class="message">{{ message }}</p>
     <button @click="loadAll">Refresh</button>
@@ -81,8 +84,8 @@ onMounted(loadAll)
         <tr><th>#</th><th>Customer</th><th>SKU</th><th>Qty</th><th>Unit</th><th>Disc.</th><th>Total</th><th>Status</th></tr>
         <tr v-for="o in orders" :key="o.id">
           <td>{{ o.id }}</td><td>{{ o.customerName }}</td><td>{{ o.sku }}</td><td>{{ o.quantity }}</td>
-          <td>{{ o.unitPrice }}</td><td>{{ o.discountRate }}</td><td>{{ o.total }}</td>
-          <td>{{ o.status }}<span v-if="o.rejectReason"> ({{ o.rejectReason }})</span></td>
+          <td class="num">{{ o.unitPrice }}</td><td class="num">{{ o.discountRate }}</td><td class="num">{{ o.total }}</td>
+          <td><span class="badge" :data-status="o.status">{{ o.status }}</span><span v-if="o.rejectReason"> ({{ o.rejectReason }})</span></td>
         </tr>
       </table>
     </section>
@@ -110,7 +113,13 @@ onMounted(loadAll)
 </template>
 
 <style>
-body { font-family: system-ui, sans-serif; margin: 2rem; color: #222; }
+body { font-family: 'Inter', system-ui, sans-serif; margin: 0; color: #1f2933; background: #f5f7fa; }
+main { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+.topbar { display: flex; align-items: baseline; gap: 1rem; border-bottom: 2px solid #3e4c59; }
+.version { color: #7b8794; font-size: 0.85rem; }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.badge { padding: 2px 6px; border-radius: 4px; background: #e4e7eb; }
+.badge[data-status='Rejected'] { background: #fde2e2; color: #b00020; }
 small { color: #888; font-weight: normal; font-size: 0.7em; }
 table { border-collapse: collapse; margin-bottom: 1rem; }
 th, td { border: 1px solid #ccc; padding: 4px 8px; text-align: left; }
