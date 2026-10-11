@@ -8,7 +8,8 @@ namespace Acme.Common.Http;
 // - Uses snake_case-insensitive deserialization because the Go services speak snake_case.
 public static class LegacyHttpHelper
 {
-    private static readonly HttpClient Client = new() { Timeout = TimeSpan.FromSeconds(5) };
+    // HOTFIX 1.0.1: prod pricing-service is slow under load, 5s was dropping orders.
+    private static readonly HttpClient Client = new() { Timeout = TimeSpan.FromSeconds(15) };
 
     public static readonly JsonSerializerOptions SnakeCaseOptions = new()
     {
