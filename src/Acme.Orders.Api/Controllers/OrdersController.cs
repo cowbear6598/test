@@ -11,7 +11,8 @@ public record CreateOrderRequest(int CustomerId, string Sku, int Quantity);
 public class OrdersController(OrderRepository repo, DownstreamClients downstream) : ControllerBase
 {
     [HttpGet]
-    public IEnumerable<Order> List() => repo.All();
+    public IEnumerable<Order> List([FromQuery] int? customerId) =>
+        customerId is null ? repo.All() : repo.All().Where(o => o.CustomerId == customerId);
 
     [HttpGet("{id:int}")]
     public ActionResult<Order> Get(int id) => repo.Get(id) is { } o ? o : NotFound();
